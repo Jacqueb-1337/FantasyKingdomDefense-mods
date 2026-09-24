@@ -1,13 +1,12 @@
 {
+  "namespace": "me.jacqueb",
   "id": "custom-units-dlc",
   "name": "Custom Units DLC",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Expandable DLC pack for new Fantasy Kingdom Defense units. Initial unit: Alchemist.",
   "entryClass": "me.jacqueb.fkdmods.customunits.CustomUnitsMod",
-  "minimumCoreVersion": "0.1.1",
+  "minimumCoreVersion": "0.1.2",
   "minimumHookApi": 1,
   "dependencies": [],
-  "assets": [
-    "units/alchemist/alchemist.png"
-  ]
+  "assets": ["units/alchemist/alchemist.png"]
 }

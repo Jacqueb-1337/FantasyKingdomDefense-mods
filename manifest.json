@@ -1,36 +1,29 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "repository": "Jacqueb-1337/FantasyKingdomDefense-mods",
-  "bootstrap": {
-    "minimumVersion": 1
-  },
+  "repositoryAlias": "official",
+  "bootstrap": {"minimumVersion": 1},
   "core": {
     "id": "fkd-core",
     "name": "FKD Core",
-    "latestVersion": "0.1.1",
+    "latestVersion": "0.1.2",
     "minimumBootstrapVersion": 1,
     "hookApi": 1,
-    "latestUrl": "core/fkd-core-0.1.1.fkdcore",
-    "sha256": "965d778cff69bd478ba7ce16e650cbe246be4fc95b82442ad199e4f3584b1f98"
+    "latestUrl": "core/fkd-core-0.1.2.fkdcore",
+    "sha256": "14f263eb1a3915680d06ca1d361bdd1e9cab530188188f5643e4d1eb15b7bf58"
   },
-  "mods": [
-    {
-      "id": "custom-units-dlc",
-      "name": "Custom Units DLC",
-      "description": "Expandable custom-unit DLC. Initial unit: Alchemist.",
-      "latestVersion": "0.1.1",
-      "minimumCoreVersion": "0.1.1",
-      "minimumHookApi": 1,
-      "dependencies": [],
-      "filename": "custom-units-dlc-0.1.1.fkdmod",
-      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.1.fkdmod",
-      "sha256": "ff73090131af65bcd9ffe5a57d2c7fae812d6665b800ba48cf15614ec1ea548c"
-    }
-  ],
-  "content": {
-    "troops": [],
-    "enemies": [],
-    "worlds": [],
-    "castle": []
-  }
+  "mods": [{
+    "namespace": "me.jacqueb",
+    "id": "custom-units-dlc",
+    "name": "Custom Units DLC",
+    "description": "Expandable custom-unit DLC. Initial unit: Alchemist.",
+    "latestVersion": "0.1.2",
+    "minimumCoreVersion": "0.1.2",
+    "minimumHookApi": 1,
+    "dependencies": [],
+    "filename": "custom-units-dlc-0.1.2.fkdmod",
+    "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.2.fkdmod",
+    "sha256": "cb6b119f9569d488eb644d144c1a6eeb6a3b51dbcddcaa3d8b9435651a43a19b"
+  }],
+  "content": {"troops":[],"enemies":[],"worlds":[],"castle":[]}
 }
