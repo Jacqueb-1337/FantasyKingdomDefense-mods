@@ -8,11 +8,11 @@
   "core": {
     "id": "fkd-core",
     "name": "FKD Core",
-    "latestVersion": "0.1.9",
+    "latestVersion": "0.1.10",
     "minimumBootstrapVersion": 1,
     "hookApi": 1,
-    "latestUrl": "core/fkd-core-0.1.9.fkdcore",
-    "sha256": "bb5e074b276f4004d944bacb3d41be58776b875c33b2621516086dd256bd0428"
+    "latestUrl": "core/fkd-core-0.1.10.fkdcore",
+    "sha256": "9e450fe001f07b2ac4072408bda04e1416a6008767f994c38c2b9f4609f93775"
   },
   "mods": [
     {
