@@ -12,7 +12,7 @@
     "minimumBootstrapVersion": 1,
     "hookApi": 1,
     "latestUrl": "core/fkd-core-0.1.8.fkdcore",
-    "sha256": "3dce4691fd8439f252d50ec77f8e1635c10a4f3d0b2ba30591c8443e929d5662"
+    "sha256": "a10ba33d83c6ab19d994387cbf528d6d24cf752b227810d53de560a346c433b1"
   },
   "mods": [
     {
@@ -32,7 +32,7 @@
       ],
       "filename": "custom-units-dlc-0.1.4.fkdmod",
       "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.4.fkdmod",
-      "sha256": "c62a4b438260188e0cd095117524c8b85934c9d0f30a82df05a91c1fac51ccad"
+      "sha256": "913e08e6dd25057f95e64dcc28b85bd0e9be24e2ce0a023fd159fbd17eec3d25"
     }
   ],
   "content": {
