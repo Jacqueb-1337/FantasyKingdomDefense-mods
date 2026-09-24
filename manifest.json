@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "repository": "Jacqueb-1337/FantasyKingdomDefense-mods",
+  "loader": {
+    "minimumVersion": "0.1.0"
+  },
+  "mods": [],
+  "content": {
+    "troops": [],
+    "enemies": [],
+    "worlds": [],
+    "castle": []
+  }
+}
