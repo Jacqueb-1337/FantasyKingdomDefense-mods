@@ -1,0 +1,8 @@
+
+# Local proprietary/reference game baseline
+source-of-truth/
+
+
+# Local APK build workspace
+work/
+
