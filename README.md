@@ -13,6 +13,7 @@ Modding framework and package repository for the fan-maintained Fantasy Kingdom 
   - [1. Pick a namespace and ID](#1-pick-a-namespace-and-id)
   - [2. Write the manifest](#2-write-the-manifest)
   - [3. Write the mod](#3-write-the-mod)
+    - [Register custom units](#register-custom-units)
   - [4. Build the package](#4-build-the-package)
   - [5. Publish it](#5-publish-it)
 - [Repository layout](#repository-layout)
@@ -188,6 +189,38 @@ public final class MyMod implements FKDMod {
 ```
 
 Use the public Core APIs and hooks instead of patching game classes from the mod package.
+
+#### Register custom units
+
+Core 0.1.8+ lets mods register custom units without choosing numeric type IDs or hardcoding shop tiles. Registered units are appended to the custom-unit pages automatically in registration order.
+
+A unit can be registered with the AUTO-type constructor:
+
+```java
+CustomUnitRegistry.register(context, new CustomUnitDefinition(
+    "my-unit",
+    "My Unit",
+    "Short description.",
+    50,
+    new int[] {60, 75, 90},
+    new int[] {8, 12, 16},
+    new int[] {0, 0, 0},
+    new int[] {14, 15, 16},
+    new int[] {16, 14, 12},
+    "units/my-unit.png",
+    45,
+    45,
+    "warlock",
+    5,
+    true,
+    0,
+    new MyUnitBehavior()
+));
+```
+
+Core assigns a stable custom type ID and remembers it for that mod/unit pair. Installing another unit mod simply adds its registered units to the available pages.
+
+If your mod uses this API, require Core 0.1.8 or newer in the manifest.
 
 ### 4. Build the package
 
