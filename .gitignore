@@ -6,3 +6,6 @@ source-of-truth/
 # Local APK build workspace
 work/
 
+# Generated mod build output
+mods/**/build/
+

@@ -1,74 +1,81 @@
 # FKD Mod Architecture
 
-## Goal
+## Principle
 
-Ship Fantasy Kingdom Defense with a complete, working mod platform already built into the APK.
+The APK is a permanent bootstrap, not the update vehicle.
 
-A fresh install must require no separate mod-loader download, no bootstrap package, and no manual folder setup. The user installs FKD, launches it, and the Mod Manager is already available.
+Once the final bootstrap-capable APK is installed, ordinary FKD development must not require users to replace the APK. FKD Core and mods update independently from the repository.
 
-## Built-in core
+## Layer 1: APK Bootstrap
 
-The APK contains a non-removable FKD Core layer.
+Bootstrap version 1 is intentionally small and stable.
 
-FKD Core includes:
+It owns only:
 
-1. Bootstrap
-   - Runs during FKD startup.
-   - Creates private storage.
-   - Initializes logging.
-   - Initializes the HookBus.
-   - Starts the built-in Mod Manager.
-   - Starts the built-in Content Manager.
-   - Loads enabled external mods.
+- startup entry point
+- stable game hook trampolines
+- dynamic Core package loading
+- Core update checks
+- SHA-256 verification
+- fallback/rollback selection
+- Android DocumentsProvider
+- the bundled fallback Core package
 
-2. HookBus
-   - Stable API used by external mods.
-   - Planned hooks include game startup, menu creation, battle start, wave start, enemy spawn, enemy damage, enemy death, defender creation, defender attack, castle damage, level victory, shop population, drawing, resource lookup, and pointer input.
-   - External mods should use HookBus instead of permanently patching the base game.
+Game smali calls only the stable Bootstrap hooks. It never calls implementation classes inside a particular Core release.
 
-3. Built-in Mod Manager
-   - Always present.
-   - Cannot be disabled or uninstalled from inside FKD.
-   - Works offline for installed local mods.
-   - Shows Core separately from user-installed mods.
-   - Scans installed .fkdmod packages.
-   - Reads manifests.
-   - Resolves dependencies.
-   - Exposes enable and disable state.
-   - Reports compatibility and load failures.
-   - Loads verified DEX entry points through Android class loading.
-   - Browses configured repositories when internet is available.
-   - Downloads, updates, imports, exports, and removes optional mods.
-   - Can restore the default repository list.
+## Layer 2: FKD Core
 
-4. Built-in Content Manager
-   - Always present.
-   - Loads cached content before any network request.
-   - Downloads the repository manifest when internet is available.
-   - Compares versions and SHA-256 hashes.
-   - Downloads into a staging directory.
-   - Verifies content before activation.
-   - Atomically promotes verified files.
-   - Keeps executable mods separate from data-only DLC.
-   - Continues using the last valid cache when offline.
+FKD Core is distributed as a `.fkdcore` package.
 
-5. DocumentsProvider
-   - Exposes a user-visible FKD Mods root to AOSP Files.
-   - The physical files remain inside FKD's private app sandbox.
-   - Planned folders:
-     - Mods
-     - Content
-     - Logs
-     - Imports
-     - Exports
+Current entry class:
 
-## First launch
+```
+me.jacqueb.fkdcore.RuntimeCore
+```
 
-On a clean installation FKD Core creates this private structure automatically:
+Core implements the Bootstrap `CoreRuntime` interface and provides:
+
+- Mod Manager
+- Content Manager
+- HookBus
+- mod loading
+- repository browsing
+- custom-unit registry
+- custom-unit runtime
+- battle-menu pagination
+- shop pagination
+- future hook implementations
+
+A new Core can replace all of those systems without replacing the APK, provided it remains compatible with the installed Bootstrap version.
+
+## Core startup/update flow
+
+1. Bootstrap creates `files/FKDMods/`.
+2. Bootstrap ensures the APK-bundled fallback `.fkdcore` has been copied to private storage.
+3. Bootstrap validates cached Core packages.
+4. Bootstrap selects the highest compatible valid Core version.
+5. It extracts that package's `classes.dex` into private code cache.
+6. The DEX copy is made read-only.
+7. Bootstrap loads the Core entry class with `DexClassLoader`.
+8. Core initializes and loads enabled mods.
+9. Bootstrap checks the repository in the background.
+10. If a newer compatible Core exists, Bootstrap downloads it to staging.
+11. SHA-256 and package metadata are verified.
+12. The package is atomically promoted into the Core cache.
+13. It becomes active on the next launch.
+
+If networking or verification fails, the current Core continues running unchanged.
+
+## Private layout
 
 ```
 files/FKDMods/
+  Core/
+    fkd-core-bundled.fkdcore
+    fkd-core-<version>.fkdcore
+    staging/
   Mods/
+  ModData/
   Content/
     cache/
     active/
@@ -79,92 +86,58 @@ files/FKDMods/
   state/
 ```
 
-No files need to be copied by the user.
+## Repository manifest
 
-The default GitHub repository is embedded in the APK configuration so Browse works immediately when a network connection is available.
-
-If the repository is unreachable, the built-in manager still opens and installed mods still load.
-
-## Core versioning
-
-The built-in platform has its own version, independent of individual mods.
+The root manifest advertises Bootstrap compatibility, current Core, and optional mods separately.
 
 Example:
 
-```
-FKD Core 0.1.0
-Mod Manager 0.1.0
-Content Manager 0.1.0
-Hook API 1
-```
-
-External packages declare the minimum FKD Core version and Hook API they require.
-
-The remote repository may advertise a newer FKD build or Core version, but the repository is never required to make the bundled manager function.
-
-## Mod package
-
-A .fkdmod file is a ZIP archive.
-
-```
-manifest.json
-classes.dex
-assets/
-icon.png
+```json
+{
+  "bootstrap": {
+    "minimumVersion": 1
+  },
+  "core": {
+    "latestVersion": "0.1.0",
+    "minimumBootstrapVersion": 1,
+    "hookApi": 1,
+    "latestUrl": "core/fkd-core-0.1.0.fkdcore",
+    "sha256": "..."
+  },
+  "mods": []
+}
 ```
 
-The writable package is never executed in-place.
+## Custom Units DLC
 
-Installation flow:
+Custom Units DLC is an ordinary `.fkdmod`, not part of the APK.
 
-1. Copy or download the package into staging.
-2. Parse and validate its manifest.
-3. Verify its SHA-256 hash when one is supplied by the repository.
-4. Extract executable DEX into the app's private code area.
-5. Make the executable copy read-only before class loading.
-6. Promote the package to the installed Mods directory.
-7. Load its declared entry class on the next safe load point.
+Its first registered unit is Alchemist. Future units are added by updating the same DLC package.
 
-## Repository layout
+The generic custom-unit integration lives in FKD Core, including:
 
-```
-manifest.json
-mods/
-content/
-  troops/
-  enemies/
-  worlds/
-  castle/
-schemas/
-docs/
-```
+- IDs outside vanilla range
+- unit registration
+- per-unit behavior/think methods
+- custom stats
+- runtime sprites/assets
+- projectiles/effects
+- custom unlocks
+- shop pagination
+- battlefield unit-selection pagination
 
-The repository contains optional downloadable material. It does not contain the only copy of the Mod Manager.
-
-## Default repository
-
-The shipped manager starts with this repository configured:
-
-```
-https://raw.githubusercontent.com/Jacqueb-1337/FantasyKingdomDefense-mods/main/manifest.json
-```
-
-Additional repositories can be added later.
+Alchemist has its own `AlchemistBehavior.think()` method. Future units can provide their own behavior classes without APK changes.
 
 ## CNR design carried forward
 
-The architecture keeps the useful parts of CNRModManager and CNR ContentManager:
+The FKD architecture follows the same important rule as CNR:
 
-- one bootstrap entry point
-- a built-in manager that is available without external files
-- a version registry
-- a manager UI separated from individual mods
-- manifest-driven remote content
-- cached downloads
-- hash verification
-- explicit dependency and compatibility checks
-- stable hook interfaces so individual mods do not patch the base game themselves
+- stable bootstrap
+- versioned Core
+- repo-driven updates
+- manager available without manual installation
+- cached fallback
+- optional downloadable mods
+- dependencies/version checks
 
-The Unity-specific pieces are replaced with Android and Java equivalents.
-
-Assembly.Load becomes DEX class loading. Unity scene hooks become patched Java hook points in FKD's compiled classes.
+The Android implementation uses DEX packages instead of Unity assemblies.

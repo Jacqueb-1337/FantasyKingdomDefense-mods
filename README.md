@@ -1,43 +1,77 @@
 # Fantasy Kingdom Defense Mods
 
-Public mod and downloadable-content repository for the fan-maintained Fantasy Kingdom Defense HD 1.17.91 build.
+Public Core, mod, and downloadable-content repository for the fan-maintained Fantasy Kingdom Defense HD 1.17.91 build.
 
-Fantasy Kingdom Defense ships with FKD Core and a working Mod Manager already built into the APK. Users do not need to install a separate loader or manager. This repository supplies optional mods, DLC, metadata, and updates that the built-in manager can browse and install.
+## Install once
 
-## Built-in experience
+The APK contains only a small, stable FKD Bootstrap plus an offline fallback copy of FKD Core.
 
-A clean FKD install already includes:
+Users install the APK once. They do not need to replace the APK when FKD Core, the Mod Manager, hook APIs, or optional DLC are updated.
 
-- FKD Core bootstrap
-- Mod Manager UI
+At startup Bootstrap:
+
+1. loads the highest valid cached FKD Core package,
+2. falls back to the Core package bundled with the APK when necessary,
+3. starts the Core and Mod Manager,
+4. checks this repository for a newer Core,
+5. downloads and SHA-256 verifies a newer Core when available,
+6. activates the downloaded Core on the next launch.
+
+A failed or corrupt update never replaces the last valid Core.
+
+## What stays in the APK
+
+Only stable infrastructure:
+
+- FKD Bootstrap
+- stable game hook trampolines
+- Core package loader/updater
+- Android DocumentsProvider for the FKD Mods Files root
+- bundled fallback `.fkdcore` package
+
+The APK does not contain the active Core implementation classes directly.
+
+## What updates from this repository
+
+- FKD Core
+- Mod Manager
 - Content Manager
-- Hook API
-- local .fkdmod installer
-- private mod storage
-- an Android DocumentsProvider that exposes FKD Mods in AOSP Files
-- this repository as the default Browse source
-
-The manager still opens and installed local mods still load when the device is offline.
+- Hook API implementations
+- custom-unit framework
+- pagination and other game integrations
+- optional `.fkdmod` packages
+- data-only DLC/content
 
 ## Repository layout
 
 ```
 manifest.json
+core/
+  fkd-core-0.1.0.fkdcore
 mods/
+  custom-units-dlc/
+    custom-units-dlc-0.1.0.fkdmod
+    src/
 content/
-  troops/
-  enemies/
-  worlds/
-  castle/
 schemas/
-  mod-manifest.schema.json
 docs/
-  architecture.md
 ```
 
-## Package model
+## FKD Core package
 
-Executable mods use the .fkdmod extension. A package is a ZIP container with a manifest plus optional DEX code and assets.
+A `.fkdcore` file is a ZIP container:
+
+```
+manifest.json
+classes.dex
+assets/
+```
+
+Bootstrap loads Core DEX only from private app storage and marks executable DEX read-only before class loading.
+
+## Mod package
+
+A `.fkdmod` file is also a ZIP container:
 
 ```
 manifest.json
@@ -46,22 +80,17 @@ assets/
 icon.png
 ```
 
-The Android game verifies packages and loads executable code only from its private app storage.
+Mods declare their minimum FKD Core version and Hook API. They do not depend on a particular APK build.
 
-User-facing mod files and downloaded content are exposed through an Android DocumentsProvider so AOSP Files can show an FKD Mods root in the sidebar without broad storage access.
-
-## Content delivery
-
-The built-in Content Manager downloads manifest.json, compares versions and SHA-256 hashes, stages changed files, verifies them, then atomically promotes them into the active content cache.
-
-Large binary assets can move to GitHub Releases later without changing the manifest model.
-
-## Default repository URL
+## Default repository
 
 ```
 https://raw.githubusercontent.com/Jacqueb-1337/FantasyKingdomDefense-mods/main/manifest.json
 ```
 
-## Status
+## Current downloadable packages
 
-Repository scaffold is active. The game-side FKD Core, DocumentsProvider, Hook API, Mod Manager, and Content Manager are being integrated into the APK.
+- FKD Core 0.1.0
+- Custom Units DLC 0.1.0
+  - first unit: Alchemist
+  - designed to accept additional custom units in later DLC updates

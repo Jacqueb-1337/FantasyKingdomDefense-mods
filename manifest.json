@@ -1,10 +1,31 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "repository": "Jacqueb-1337/FantasyKingdomDefense-mods",
-  "loader": {
-    "minimumVersion": "0.1.0"
+  "bootstrap": {
+    "minimumVersion": 1
   },
-  "mods": [],
+  "core": {
+    "id": "fkd-core",
+    "name": "FKD Core",
+    "latestVersion": "0.1.0",
+    "minimumBootstrapVersion": 1,
+    "hookApi": 1,
+    "latestUrl": "core/fkd-core-0.1.0.fkdcore",
+    "sha256": "f3668cf64419c940cbf2021b81f5a5040f36babe5d8c1909f170182f6b8686c9"
+  },
+  "mods": [
+    {
+      "id": "custom-units-dlc",
+      "name": "Custom Units DLC",
+      "description": "Expandable custom-unit DLC. Initial unit: Alchemist.",
+      "latestVersion": "0.1.0",
+      "minimumCoreVersion": "0.1.0",
+      "minimumHookApi": 1,
+      "filename": "custom-units-dlc-0.1.0.fkdmod",
+      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.0.fkdmod",
+      "sha256": "2bf98dc6659d33bb4137b26b27586063e9e002e0e4b213ec40cbc443ab044a98"
+    }
+  ],
   "content": {
     "troops": [],
     "enemies": [],
