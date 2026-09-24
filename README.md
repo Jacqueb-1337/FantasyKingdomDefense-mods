@@ -22,7 +22,7 @@ Modding framework and package repository for the fan-maintained Fantasy Kingdom 
 
 The APK contains a small Bootstrap and a bundled fallback copy of FKD Core.
 
-Bootstrap loads the newest valid Core it has, falls back to the bundled Core if needed, and checks the configured repository for Core updates. New Core versions are downloaded, SHA-256 checked, and activated on the next game launch.
+Bootstrap loads the newest valid Core it has and falls back to the bundled Core if needed. Core updates are not installed automatically. They are staged only when you explicitly update/reinstall Core in the Mod Manager, or when another mod requires a newer Core version. Downloaded Core packages are SHA-256 checked and activate on the next game launch.
 
 Most modding work lives outside the APK:
 
