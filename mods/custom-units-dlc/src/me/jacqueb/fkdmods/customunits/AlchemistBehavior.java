@@ -24,7 +24,7 @@ public final class AlchemistBehavior implements CustomUnitBehavior {
 
         unit.faceTarget(target);
         final int level = unit.getLevel();
-        unit.throwProjectile(target, new CustomUnitImpactHandler() {
+        unit.throwProjectile(target, 3, new CustomUnitImpactHandler() {
             @Override
             public void onImpact(CustomUnitImpact impact) throws Exception {
                 CustomUnitDefinition def = impact.getUnit().getDefinition();
