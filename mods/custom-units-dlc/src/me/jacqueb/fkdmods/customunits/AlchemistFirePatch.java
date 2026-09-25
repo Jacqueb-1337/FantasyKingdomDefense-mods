@@ -34,6 +34,32 @@ final class AlchemistFirePatch implements CustomUnitWorldEffect {
 
     @Override
     public void draw(Object graphics) throws Exception {
-        CustomUnitEffects.drawVanillaFireAt(graphics, x, y);
+        drawFire(graphics, 0, 0);
+
+        int outerX = (radius * 70) / 100;
+        int outerY = (outerX * 94) / 101;
+        int diagonalX = (radius * 50) / 100;
+        int diagonalY = (diagonalX * 94) / 101;
+        int midX = (radius * 60) / 100;
+        int midY = ((radius * 35) / 100 * 94) / 101;
+
+        drawFire(graphics, outerX, 0);
+        drawFire(graphics, -outerX, 0);
+        drawFire(graphics, 0, outerY);
+        drawFire(graphics, 0, -outerY);
+
+        drawFire(graphics, diagonalX, diagonalY);
+        drawFire(graphics, diagonalX, -diagonalY);
+        drawFire(graphics, -diagonalX, diagonalY);
+        drawFire(graphics, -diagonalX, -diagonalY);
+
+        drawFire(graphics, midX, midY);
+        drawFire(graphics, midX, -midY);
+        drawFire(graphics, -midX, midY);
+        drawFire(graphics, -midX, -midY);
+    }
+
+    private void drawFire(Object graphics, int offsetX, int offsetY) throws Exception {
+        CustomUnitEffects.drawVanillaFireAt(graphics, x + offsetX, y + offsetY);
     }
 }
