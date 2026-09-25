@@ -2,7 +2,7 @@
   "namespace": "me.jacqueb",
   "id": "cheat-extended",
   "name": "Cheat Extended",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Interactive menu for the game's built-in developer options, with extended unit controls for vanilla and modded units.",
   "entryClass": "me.jacqueb.fkdmods.cheatextended.CheatExtendedMod",
   "minimumCoreVersion": "0.1.20",

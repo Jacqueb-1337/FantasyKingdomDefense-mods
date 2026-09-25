@@ -43,7 +43,6 @@ public final class CheatExtendedMod implements FKDMod {
             }, 500L);
             return;
         }
-        if (trigger == null) installCornerTrigger();
         mainHandler.post(watchActivation);
     }
 
@@ -51,11 +50,11 @@ public final class CheatExtendedMod implements FKDMod {
         @Override public void run() {
             try {
                 boolean enabled = GameAccess.isCheatModeEnabled();
-                if (trigger != null) trigger.setVisibility(enabled ? View.VISIBLE : View.GONE);
-                if (enabled) GameAccess.closeVanillaKeypad();
-            } catch (Throwable ignored) {
-                if (trigger != null) trigger.setVisibility(View.GONE);
-            }
+                if (enabled && GameAccess.isVanillaKeypadOpen()) {
+                    GameAccess.closeVanillaKeypad();
+                    showMainMenu();
+                }
+            } catch (Throwable ignored) {}
             mainHandler.postDelayed(this, 200L);
         }
     };
@@ -330,6 +329,13 @@ public final class CheatExtendedMod implements FKDMod {
         static boolean isCheatModeEnabled() throws Exception {
             Object instance = cheat();
             Field field = instance.getClass().getDeclaredField("cheatModeEnabled");
+            field.setAccessible(true);
+            return field.getBoolean(instance);
+        }
+
+        static boolean isVanillaKeypadOpen() throws Exception {
+            Object instance = cheat();
+            Field field = instance.getClass().getDeclaredField("cheating");
             field.setAccessible(true);
             return field.getBoolean(instance);
         }
