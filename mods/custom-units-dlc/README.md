@@ -20,10 +20,11 @@ The Alchemist targets ground enemies only. A flask lands at the target position,
 
 These files are owned entirely by the mod, so changing them does not require a Core or APK update:
 
-- `assets/units/alchemist/alchemist.png` — unit animation sheet. It is a 181x181 PNG containing a 4x4 grid of 16 logical 45x45 frames. Frames 0-1 are front idle, 2-7 are front attack, 8-9 are rear idle, and 10-15 are rear attack. The final right/bottom pixel is transparent padding. Left/right facing is mirrored by the game automatically.
+- `assets/units/alchemist/alchemist.png` — unit animation sheet. It is a 180x180 PNG containing a strict 4x4 grid of sixteen 45x45 frames. Frames 0-1 are front idle, 2-7 are front attack, 8-9 are rear idle, and 10-15 are rear attack. Left/right facing is mirrored by the game automatically. Left/right facing is mirrored by the game automatically.
 - `assets/projectiles/alchemist_flask.png` — projectile sprite sheet. The default sheet is 5 horizontal frames, 82x61 each (410x61 total). Keep that 5-frame horizontal layout when replacing it.
 - `assets/audio/alchemist_throw.ogg` — played when the flask is thrown.
 - `assets/audio/alchemist_impact.ogg` — played when the flask lands, immediately before AoE damage and the fire patch are created.
 
 The projectile itself is now implemented by the DLC as a custom `Particle` subclass, so its visual lifetime and the impact/AoE timing stay locked together without using Core's vanilla projectile launcher.
+
 
