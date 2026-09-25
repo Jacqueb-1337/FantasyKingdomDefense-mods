@@ -8,6 +8,15 @@ import javax.microedition.lcdui.Image;
 import me.jacqueb.fkdcore.custom.CustomUnitRuntime;
 
 final class AlchemistProjectile extends Particle {
+    // 1x attack timeline, in game ticks:
+    // 0-1  = frame 2, begin draw-back
+    // 2-6  = frame 3, full draw-back hold
+    // 7    = frame 6, fast forward throw
+    // 8-10 = frame 7, follow-through hold
+    // The flask releases as frame 7 begins.
+    private static final int RELEASE_TICK = 8;
+    private static final int ATTACK_END_TICK = 11;
+
     interface ImpactHandler {
         void onImpact(int x, int y) throws Exception;
     }
@@ -17,6 +26,7 @@ final class AlchemistProjectile extends Particle {
     private final int impactY;
     private final ImpactHandler impactHandler;
     private final Object releaseDefender;
+    private int attackTick;
     private boolean released;
     private boolean impacted;
 
@@ -41,23 +51,6 @@ final class AlchemistProjectile extends Particle {
         }
     }
 
-    static void beginAttack(CustomUnitRuntime unit) throws Exception {
-        Object defender = defenderOf(unit);
-        int speed = Math.max(1, staticInt(
-                "com.tqm.fantasydefense.GameTemplate", "gameSpeedValue"));
-        int startDelay = intField(defender, "_startAttackDelay");
-        setIntField(defender, "_currentAttackDelay",
-                Math.max(0, (startDelay / speed) - 1));
-
-        // Core maps _hit values 6..1 to attack frames 2..7.
-        // Starting at six gives one full draw of every attack frame.
-        setIntField(defender, "_hit", 6);
-    }
-
-    static int attackFramesRemaining(CustomUnitRuntime unit) throws Exception {
-        return intField(defenderOf(unit), "_hit");
-    }
-
     static void launch(CustomUnitRuntime unit, Object enemy,
                        ImpactHandler impactHandler) throws Exception {
         Object defender = defenderOf(unit);
@@ -67,8 +60,8 @@ final class AlchemistProjectile extends Particle {
         setIntField(defender, "_currentAttackDelay",
                 Math.max(6, (startDelay / speed) - 1));
 
-        // Core draws attack frames 2..7 while _hit counts 6..1.
-        // The projectile waits inside think() until that counter reaches zero.
+        // Start on attack frame 2. The custom timeline in think() takes
+        // over from here instead of letting Core race through all six frames.
         setIntField(defender, "_hit", 6);
 
         int ux = intField(defender, "_x");
@@ -124,15 +117,43 @@ final class AlchemistProjectile extends Particle {
 
     @Override
     public boolean think() {
-        if (!released) {
-            try {
-                if (intField(releaseDefender, "_hit") > 0) {
+        try {
+            if (attackTick < ATTACK_END_TICK) {
+                int hitValue;
+                if (attackTick < 2) {
+                    hitValue = 6; // frame 2: begin draw-back
+                } else if (attackTick < 7) {
+                    hitValue = 5; // frame 3: hold at full draw-back
+                } else if (attackTick < RELEASE_TICK) {
+                    hitValue = 2; // frame 6: one fast forward-motion frame
+                } else {
+                    hitValue = 1; // frame 7: follow-through hold
+                }
+                setIntField(releaseDefender, "_hit", hitValue);
+
+                if (!released && attackTick >= RELEASE_TICK) {
+                    released = true;
+                    AlchemistAssets.playThrow();
+                }
+
+                int speed = Math.max(1, staticInt(
+                        "com.tqm.fantasydefense.GameTemplate", "gameSpeedValue"));
+                attackTick += speed;
+
+                if (!released) {
                     return true;
                 }
-            } catch (Throwable ignored) {
-                // If the defender disappears, release rather than leaving
-                // a permanent invisible particle in the group.
             }
+        } catch (Throwable ignored) {
+            // If the defender disappears mid-windup, release rather than
+            // leaving an invisible particle alive forever.
+            if (!released) {
+                released = true;
+                AlchemistAssets.playThrow();
+            }
+        }
+
+        if (!released) {
             released = true;
             AlchemistAssets.playThrow();
         }
