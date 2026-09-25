@@ -16,17 +16,21 @@ final class AlchemistProjectile extends Particle {
     private final int impactX;
     private final int impactY;
     private final ImpactHandler impactHandler;
+    private final Object releaseDefender;
+    private boolean released;
     private boolean impacted;
 
     private AlchemistProjectile(int startX, int startY,
                                 int destX, int destY,
                                 int impactX, int impactY,
                                 Image image,
+                                Object releaseDefender,
                                 ImpactHandler impactHandler) {
         super(startX, startY, destX, destY, 12, 0, true);
         this.image = image;
         this.impactX = impactX;
         this.impactY = impactY;
+        this.releaseDefender = releaseDefender;
         this.impactHandler = impactHandler;
         if (image != null) {
             this._width = Math.max(1, image.getWidth() / 5);
@@ -57,6 +61,15 @@ final class AlchemistProjectile extends Particle {
     static void launch(CustomUnitRuntime unit, Object enemy,
                        ImpactHandler impactHandler) throws Exception {
         Object defender = defenderOf(unit);
+        int speed = Math.max(1, staticInt(
+                "com.tqm.fantasydefense.GameTemplate", "gameSpeedValue"));
+        int startDelay = intField(defender, "_startAttackDelay");
+        setIntField(defender, "_currentAttackDelay",
+                Math.max(6, (startDelay / speed) - 1));
+
+        // Core draws attack frames 2..7 while _hit counts 6..1.
+        // The projectile waits inside think() until that counter reaches zero.
+        setIntField(defender, "_hit", 6);
 
         int ux = intField(defender, "_x");
         int uy = intField(defender, "_y");
@@ -75,7 +88,7 @@ final class AlchemistProjectile extends Particle {
 
         AlchemistProjectile projectile = new AlchemistProjectile(
                 startX, startY, destX, destY, ex, ey,
-                AlchemistAssets.projectileImage(), impactHandler);
+                AlchemistAssets.projectileImage(), defender, impactHandler);
 
         Field particlesField = Class.forName(
                 "com.tqm.fantasydefense.game.ParticleGroup")
@@ -86,7 +99,6 @@ final class AlchemistProjectile extends Particle {
             throw new IllegalStateException("ParticleGroup.particles unavailable");
         }
         ((Vector)value).addElement(projectile);
-        AlchemistAssets.playThrow();
     }
 
     @Override
@@ -112,6 +124,19 @@ final class AlchemistProjectile extends Particle {
 
     @Override
     public boolean think() {
+        if (!released) {
+            try {
+                if (intField(releaseDefender, "_hit") > 0) {
+                    return true;
+                }
+            } catch (Throwable ignored) {
+                // If the defender disappears, release rather than leaving
+                // a permanent invisible particle in the group.
+            }
+            released = true;
+            AlchemistAssets.playThrow();
+        }
+
         boolean alive = super.think();
         if (!alive && !impacted) {
             impacted = true;
