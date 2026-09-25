@@ -1,5 +1,6 @@
 package me.jacqueb.fkdmods.customunits;
 
+import java.lang.reflect.Field;
 import me.jacqueb.fkdcore.custom.CustomUnitBehavior;
 import me.jacqueb.fkdcore.custom.CustomUnitDefinition;
 import me.jacqueb.fkdcore.custom.CustomUnitEffects;
@@ -21,6 +22,7 @@ public final class AlchemistBehavior implements CustomUnitBehavior {
         }
 
         unit.faceTarget(target);
+        invertHorizontalFacing(unit);
         final int level = unit.getLevel();
         final CustomUnitDefinition def = unit.getDefinition();
 
@@ -40,6 +42,15 @@ public final class AlchemistBehavior implements CustomUnitBehavior {
                         x, y, radius, burnDamage, burnTicks));
             }
         });
+    }
+
+    private static void invertHorizontalFacing(CustomUnitRuntime unit) throws Exception {
+        Field defenderField = CustomUnitRuntime.class.getDeclaredField("defender");
+        defenderField.setAccessible(true);
+        Object defender = defenderField.get(unit);
+
+        Field leftField = defender.getClass().getField("_left");
+        leftField.setBoolean(defender, !leftField.getBoolean(defender));
     }
 
     private static int atLevel(int[] values, int level) {
