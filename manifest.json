@@ -8,11 +8,11 @@
   "core": {
     "id": "fkd-core",
     "name": "FKD Core",
-    "latestVersion": "0.1.21",
+    "latestVersion": "0.1.22",
     "minimumBootstrapVersion": 3,
     "hookApi": 1,
-    "latestUrl": "core/fkd-core-0.1.21.fkdcore",
-    "sha256": "a423b78ef3451ac81588aab42cb256664378382843ef1ae4c6d52fffa474fa63"
+    "latestUrl": "core/fkd-core-0.1.22.fkdcore",
+    "sha256": "287eb3df95cc06c9d465add19c0c935de568a666432f241e6f81f40388aad0a0"
   },
   "mods": [
     {
@@ -20,19 +20,19 @@
       "id": "custom-units-dlc",
       "name": "Custom Units DLC",
       "description": "Expandable custom-unit DLC. Initial unit: Alchemist.",
-      "latestVersion": "0.1.25",
-      "minimumCoreVersion": "0.1.21",
+      "latestVersion": "0.1.26",
+      "minimumCoreVersion": "0.1.22",
       "minimumHookApi": 1,
       "dependencies": [
         {
           "type": "core",
-          "minimumVersion": "0.1.21",
+          "minimumVersion": "0.1.22",
           "repository": "official"
         }
       ],
-      "filename": "custom-units-dlc-0.1.25.fkdmod",
-      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.25.fkdmod",
-      "sha256": "65e1db888933e0a63b819384debf7c7cbe00c74c7597c826d1a82713fc1dbf66"
+      "filename": "custom-units-dlc-0.1.26.fkdmod",
+      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.26.fkdmod",
+      "sha256": "b449f3a8d859ac40ee73b13e39c90d3858e0b9e7371291073ffbf88759b3563f"
     },
     {
       "namespace": "me.jacqueb",
