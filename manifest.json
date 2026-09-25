@@ -3,16 +3,16 @@
   "repository": "Jacqueb-1337/FantasyKingdomDefense-mods",
   "repositoryAlias": "official",
   "bootstrap": {
-    "minimumVersion": 2
+    "minimumVersion": 3
   },
   "core": {
     "id": "fkd-core",
     "name": "FKD Core",
-    "latestVersion": "0.1.11",
-    "minimumBootstrapVersion": 2,
+    "latestVersion": "0.1.12",
+    "minimumBootstrapVersion": 3,
     "hookApi": 1,
-    "latestUrl": "core/fkd-core-0.1.11.fkdcore",
-    "sha256": "6039538c3385516e47cfad9c679dd2a8195a40f2e3ade4fa87c46cbd538ff9d3"
+    "latestUrl": "core/fkd-core-0.1.12.fkdcore",
+    "sha256": "f3f80b5cf618f0d831fc4f791de56c3bdcbcd0e3988dc6ede9aa557f7b6607fa"
   },
   "mods": [
     {
