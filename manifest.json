@@ -12,7 +12,7 @@
     "minimumBootstrapVersion": 3,
     "hookApi": 1,
     "latestUrl": "core/fkd-core-0.1.15.fkdcore",
-    "sha256": "48e3baa3c7b3663a34780207f7ce674a4106512f924cdc997a4f7a8d6cdb16f5"
+    "sha256": "00f31c856202e0028d76d1ce5fe5fe8dc2f7241a1f8bef883f2444283176a1a9"
   },
   "mods": [
     {
@@ -42,4 +42,5 @@
     "castle": []
   }
 }
+
 
