@@ -19,7 +19,7 @@ public final class CustomUnitsMod implements FKDMod {
                 new int[] {0, 0, 0},
                 new int[] {14, 15, 16},
                 new int[] {16, 16, 12},
-                "units/alchemist/alchemist.png",
+                "alchemist.png",
                 45,
                 45,
                 "warlock",
