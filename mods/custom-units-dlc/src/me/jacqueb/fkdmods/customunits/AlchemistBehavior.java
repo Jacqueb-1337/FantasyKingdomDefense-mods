@@ -3,8 +3,6 @@ package me.jacqueb.fkdmods.customunits;
 import me.jacqueb.fkdcore.custom.CustomUnitBehavior;
 import me.jacqueb.fkdcore.custom.CustomUnitDefinition;
 import me.jacqueb.fkdcore.custom.CustomUnitEffects;
-import me.jacqueb.fkdcore.custom.CustomUnitImpact;
-import me.jacqueb.fkdcore.custom.CustomUnitImpactHandler;
 import me.jacqueb.fkdcore.custom.CustomUnitRuntime;
 
 public final class AlchemistBehavior implements CustomUnitBehavior {
@@ -24,21 +22,22 @@ public final class AlchemistBehavior implements CustomUnitBehavior {
 
         unit.faceTarget(target);
         final int level = unit.getLevel();
-        unit.throwProjectile(target, 3, new CustomUnitImpactHandler() {
+        final CustomUnitDefinition def = unit.getDefinition();
+
+        AlchemistProjectile.launch(unit, target, new AlchemistProjectile.ImpactHandler() {
             @Override
-            public void onImpact(CustomUnitImpact impact) throws Exception {
-                CustomUnitDefinition def = impact.getUnit().getDefinition();
+            public void onImpact(int x, int y) throws Exception {
                 int directDamage = def.atLevel(def.groundDamage, level);
                 int burnDamage = atLevel(BURN_DAMAGE, level);
                 int burnTicks = atLevel(BURN_TICKS, level);
                 int radius = atLevel(FIRE_RADIUS, level);
 
                 CustomUnitEffects.damageGroundEnemiesInRadius(
-                        impact.getX(), impact.getY(), radius, directDamage);
+                        x, y, radius, directDamage);
                 CustomUnitEffects.applyFireToGroundEnemiesInRadius(
-                        impact.getX(), impact.getY(), radius, burnDamage);
+                        x, y, radius, burnDamage);
                 CustomUnitEffects.addWorldEffect(new AlchemistFirePatch(
-                        impact.getX(), impact.getY(), radius, burnDamage, burnTicks));
+                        x, y, radius, burnDamage, burnTicks));
             }
         });
     }

@@ -16,3 +16,13 @@ Secret unlock cost: **80 gems**.
 
 The Alchemist targets ground enemies only. A flask lands at the target position, deals direct impact damage, and creates a three-tick fire patch. Flying enemies ignore the patch. If multiple patches overlap an enemy on the same tick, only the strongest burn applies.
 
+## Alchemist replaceable assets
+
+These files are owned entirely by the mod, so changing them does not require a Core or APK update:
+
+- `assets/projectiles/alchemist_flask.png` — projectile sprite sheet. The default sheet is 5 horizontal frames, 82x61 each (410x61 total). Keep that 5-frame horizontal layout when replacing it.
+- `assets/audio/alchemist_throw.ogg` — played when the flask is thrown.
+- `assets/audio/alchemist_impact.ogg` — played when the flask lands, immediately before AoE damage and the fire patch are created.
+
+The projectile itself is now implemented by the DLC as a custom `Particle` subclass, so its visual lifetime and the impact/AoE timing stay locked together without using Core's vanilla projectile launcher.
+

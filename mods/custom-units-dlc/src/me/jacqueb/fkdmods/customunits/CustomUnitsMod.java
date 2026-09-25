@@ -8,6 +8,7 @@ import me.jacqueb.fkdcore.custom.CustomUnitRegistry;
 public final class CustomUnitsMod implements FKDMod {
     @Override
     public void onLoad(ModContext context) throws Exception {
+        AlchemistAssets.initialize(context);
         CustomUnitRegistry.register(context, new CustomUnitDefinition(
                 "custom-units.alchemist",
                 "Alchemist",
