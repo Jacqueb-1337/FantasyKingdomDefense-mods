@@ -21,7 +21,9 @@ final class AlchemistFirePatch implements CustomUnitWorldEffect {
 
     @Override
     public boolean tick() throws Exception {
-        int interval = Math.max(1, 6 / CustomUnitEffects.getGameSpeed());
+        // Three timed burn applications over roughly 1.5 seconds at 1x
+        // (24 game ticks at the game's 16 FPS cap).
+        int interval = Math.max(1, 8 / CustomUnitEffects.getGameSpeed());
         clock++;
         if (clock < interval) return true;
         clock = 0;

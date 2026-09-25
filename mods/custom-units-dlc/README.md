@@ -8,19 +8,20 @@ The first unit is **Alchemist** (custom type ID 1000). Future units should be ad
 
 | Level | Build / upgrade cost | Ground damage | Air damage | Range | Attack delay | Burn damage | Burn ticks | Fire radius |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 | 90 | 8 | 0 | 14 | 16 | 4 | 3 | 2.50 tiles |
-| 2 | 45 | 12 | 0 | 15 | 16 | 5 | 3 | 2.75 tiles |
-| 3 | 90 | 16 | 0 | 16 | 12 | 6 | 3 | 3.00 tiles |
+| 1 | 90 | 8 | 0 | 14 | 20 | 4 | 3 | 2.50 tiles |
+| 2 | 45 | 12 | 0 | 15 | 18 | 5 | 3 | 2.75 tiles |
+| 3 | 90 | 16 | 0 | 16 | 16 | 6 | 3 | 3.00 tiles |
 
 Secret unlock cost: **80 gems**.
 
-The Alchemist targets ground enemies only. A flask lands at the target position, deals direct impact damage, and creates a three-tick fire patch. Flying enemies ignore the patch. If multiple patches overlap an enemy on the same tick, only the strongest burn applies.
+The Alchemist targets ground enemies only. A flask lands at the target position, deals direct impact damage to every ground enemy inside the AoE radius, and creates a three-tick fire patch that lasts about 1.5 seconds at 1x speed. Flying enemies ignore the patch.
 
 ## Alchemist replaceable assets
 
 These files are owned entirely by the mod, so changing them does not require a Core or APK update:
 
-- `assets/alchemist.png` — unit animation sheet. It is a 724x724 PNG containing a strict 4x4 grid of sixteen 181x181 frames. Frames 0-1 are front idle, 2-7 are front attack, 8-9 are rear idle, and 10-15 are rear attack. Left/right facing is mirrored by the game automatically. Left/right facing is mirrored by the game automatically.
+- `assets/alchemist.png` — unit animation sheet. It is a 724x724 PNG containing a strict 4x4 grid of sixteen 181x181 frames. Frames 0-1 are front idle, 2-7 are front attack, 8-9 are rear idle, and 10-15 are rear attack. Left/right facing is mirrored by the game automatically.
+- `assets/alchemist-shop.png` — two-frame shop icon sheet, 248x147 total with two 124x147 frames: normal then selected.
 - `assets/projectiles/alchemist_flask.png` — projectile sprite sheet. The default sheet is 5 horizontal frames, 82x61 each (410x61 total). Keep that 5-frame horizontal layout when replacing it.
 - `assets/audio/alchemist_throw.ogg` — played when the flask is thrown.
 - `assets/audio/alchemist_impact.ogg` — played when the flask lands, immediately before AoE damage and the fire patch are created.
