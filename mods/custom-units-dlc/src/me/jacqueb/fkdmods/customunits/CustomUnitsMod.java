@@ -12,7 +12,7 @@ public final class CustomUnitsMod implements FKDMod {
         CustomUnitRegistry.register(context, new CustomUnitDefinition(
                 "custom-units.alchemist",
                 "Alchemist",
-                "Throws volatile flasks at ground enemies. Impact damages enemies in an area and leaves burning ground that applies the game's native fire debuff.",
+                "Throws volatile flasks at ground enemies. Impact damages enemies in an area and leaves the ground burning, scorching enemies that pass through it.",
                 80,
                 new int[] {90, 45, 90},
                 new int[] {8, 12, 16},

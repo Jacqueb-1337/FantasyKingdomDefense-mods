@@ -20,7 +20,7 @@
       "id": "custom-units-dlc",
       "name": "Custom Units DLC",
       "description": "Expandable custom-unit DLC. Initial unit: Alchemist.",
-      "latestVersion": "0.1.20",
+      "latestVersion": "0.1.21",
       "minimumCoreVersion": "0.1.19",
       "minimumHookApi": 1,
       "dependencies": [
@@ -30,9 +30,9 @@
           "repository": "official"
         }
       ],
-      "filename": "custom-units-dlc-0.1.20.fkdmod",
-      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.20.fkdmod",
-      "sha256": "db3036baa28b881995165a3e980ad59fef15328ede2028f4efde8705691f1f28"
+      "filename": "custom-units-dlc-0.1.21.fkdmod",
+      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.21.fkdmod",
+      "sha256": "32196bae2dbdef2c8104a6f3bd8d643c2a56a17159ee9d09cee0538c112732dd"
     }
   ],
   "content": {
