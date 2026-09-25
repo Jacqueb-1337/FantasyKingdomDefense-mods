@@ -192,12 +192,13 @@ Use the public Core APIs and hooks instead of patching game classes from the mod
 
 #### Register custom units
 
-Core 0.1.8+ lets mods register custom units without choosing numeric type IDs or hardcoding shop tiles. Registered units are appended to the custom-unit pages automatically in registration order.
+Core 0.1.20+ lets mods register custom units with a stable namespace + unit ID without choosing numeric type IDs or hardcoding shop tiles. Registered units are appended to the custom-unit pages automatically in registration order.
 
 A unit can be registered with the AUTO-type constructor:
 
 ```java
 CustomUnitRegistry.register(context, new CustomUnitDefinition(
+    "com.example",
     "my-unit",
     "My Unit",
     "Short description.",
@@ -218,9 +219,9 @@ CustomUnitRegistry.register(context, new CustomUnitDefinition(
 ));
 ```
 
-Core assigns a stable custom type ID and remembers it for that mod/unit pair. Installing another unit mod simply adds its registered units to the available pages.
+Core assigns a stable custom type ID and remembers it for that namespace/unit pair. The canonical unit identity is `namespace:unitId`, which lets other mods address units safely without depending on numeric type IDs. Vanilla secret units are exposed through the reserved `vanilla` namespace, such as `vanilla:elf`, `vanilla:paladin`, and `vanilla:warlock`.
 
-If your mod uses this API, require Core 0.1.8 or newer in the manifest.
+If your mod uses explicit unit namespaces or the unit catalog API, require Core 0.1.20 or newer in the manifest.
 
 ### 4. Build the package
 
@@ -265,6 +266,10 @@ mods/
     manifest.json
     src/
     custom-units-dlc-*.fkdmod
+  cheat-extended/
+    manifest.json
+    src/
+    cheat-extended-*.fkdmod
 schemas/
 docs/
 ```

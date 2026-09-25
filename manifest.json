@@ -8,11 +8,11 @@
   "core": {
     "id": "fkd-core",
     "name": "FKD Core",
-    "latestVersion": "0.1.19",
+    "latestVersion": "0.1.20",
     "minimumBootstrapVersion": 3,
     "hookApi": 1,
-    "latestUrl": "core/fkd-core-0.1.19.fkdcore",
-    "sha256": "86bc416130d97ac5706e07977d6daa2a635ef287cfb4215638052b2f5b72a46a"
+    "latestUrl": "core/fkd-core-0.1.20.fkdcore",
+    "sha256": "efb974d5314643750f682200730520ab83b638bb059d8aef848bb1000acffc09"
   },
   "mods": [
     {
@@ -20,19 +20,38 @@
       "id": "custom-units-dlc",
       "name": "Custom Units DLC",
       "description": "Expandable custom-unit DLC. Initial unit: Alchemist.",
-      "latestVersion": "0.1.22",
-      "minimumCoreVersion": "0.1.19",
+      "latestVersion": "0.1.23",
+      "minimumCoreVersion": "0.1.20",
       "minimumHookApi": 1,
       "dependencies": [
         {
           "type": "core",
-          "minimumVersion": "0.1.19",
+          "minimumVersion": "0.1.20",
           "repository": "official"
         }
       ],
-      "filename": "custom-units-dlc-0.1.22.fkdmod",
-      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.22.fkdmod",
-      "sha256": "191a4f2ac00c047509a6873fe195506f6eaf48ecd680efebe32386c51edfb82a"
+      "filename": "custom-units-dlc-0.1.23.fkdmod",
+      "latestUrl": "mods/custom-units-dlc/custom-units-dlc-0.1.23.fkdmod",
+      "sha256": "5554583cba348b45ff8b6769da2bc256f3c260f888cd108dca02214d61b0043f"
+    },
+    {
+      "namespace": "me.jacqueb",
+      "id": "cheat-extended",
+      "name": "Cheat Extended",
+      "description": "Interactive menu for the game's built-in developer options, with unit lock/unlock support for vanilla and modded units.",
+      "latestVersion": "0.1.0",
+      "minimumCoreVersion": "0.1.20",
+      "minimumHookApi": 1,
+      "dependencies": [
+        {
+          "type": "core",
+          "minimumVersion": "0.1.20",
+          "repository": "official"
+        }
+      ],
+      "filename": "cheat-extended-0.1.0.fkdmod",
+      "latestUrl": "mods/cheat-extended/cheat-extended-0.1.0.fkdmod",
+      "sha256": "34b031963651224bb1b5186612b0dc4805d24cd53b59b883738bbfc5ae5b4de1"
     }
   ],
   "content": {

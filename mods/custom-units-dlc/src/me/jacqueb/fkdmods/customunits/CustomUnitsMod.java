@@ -10,6 +10,7 @@ public final class CustomUnitsMod implements FKDMod {
     public void onLoad(ModContext context) throws Exception {
         AlchemistAssets.initialize(context);
         CustomUnitRegistry.register(context, new CustomUnitDefinition(
+                "me.jacqueb",
                 "custom-units.alchemist",
                 "Alchemist",
                 "Throws volatile flasks at ground enemies. Impact damages enemies in an area and leaves the ground burning, scorching enemies that pass through it.",
