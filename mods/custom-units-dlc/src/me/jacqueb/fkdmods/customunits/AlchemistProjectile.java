@@ -37,15 +37,26 @@ final class AlchemistProjectile extends Particle {
         }
     }
 
-    static void launch(CustomUnitRuntime unit, Object enemy,
-                       ImpactHandler impactHandler) throws Exception {
+    static void beginAttack(CustomUnitRuntime unit) throws Exception {
         Object defender = defenderOf(unit);
         int speed = Math.max(1, staticInt(
                 "com.tqm.fantasydefense.GameTemplate", "gameSpeedValue"));
         int startDelay = intField(defender, "_startAttackDelay");
         setIntField(defender, "_currentAttackDelay",
                 Math.max(0, (startDelay / speed) - 1));
-        setIntField(defender, "_hit", Math.max(1, 12 / speed));
+
+        // Core maps _hit values 6..1 to attack frames 2..7.
+        // Starting at six gives one full draw of every attack frame.
+        setIntField(defender, "_hit", 6);
+    }
+
+    static int attackFramesRemaining(CustomUnitRuntime unit) throws Exception {
+        return intField(defenderOf(unit), "_hit");
+    }
+
+    static void launch(CustomUnitRuntime unit, Object enemy,
+                       ImpactHandler impactHandler) throws Exception {
+        Object defender = defenderOf(unit);
 
         int ux = intField(defender, "_x");
         int uy = intField(defender, "_y");
